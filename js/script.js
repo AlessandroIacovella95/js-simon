@@ -1,5 +1,5 @@
 //* Elementi recuperati dal DOM
-
+const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
@@ -9,7 +9,7 @@ const secondsEl = document.getElementById('seconds');
 const now = new Date ();
 console.log(now);
 
-const tomorrow = new Date ('2023-08-24 9:30');
+const tomorrow = new Date ('2023-08-24 10:30');
 console.log(tomorrow);
 
 //* Recupero in millisecondi il tempo rimanente tra adesso e domani alle 9:30
@@ -27,9 +27,15 @@ function addnumber(remainingTime) {
 function countdown() {
     differenceTime = differenceTime - 1000;
     if (differenceTime <= 0) {
+        clearInterval(time)
         alert('Tempo Scaduto')
     } else {
-        let remainingHours = Math.floor(differenceTime / 3600000);
+
+        let remainingDays = Math.floor(differenceTime / 86400000);
+        remainingDays = addnumber(remainingDays);
+        daysEl.innerText = remainingDays;
+
+        let remainingHours = Math.floor((differenceTime % 86400000) / 3600000);
         remainingHours = addnumber(remainingHours);
         hoursEl.innerText = remainingHours;
 
@@ -43,6 +49,9 @@ function countdown() {
     }  
 }
 
-//* Invoco la funzione all'interno di SetInterval
-setInterval(countdown, 1000);
+countdown();
 
+//* Invoco la funzione all'interno di SetInterval
+let time = setInterval(function(){
+    countdown();
+}, 1000);
